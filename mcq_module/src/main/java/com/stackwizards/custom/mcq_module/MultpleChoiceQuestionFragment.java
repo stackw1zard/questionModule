@@ -16,6 +16,7 @@ import com.stackwizards.custom.jsonqeue.JsonObjectParser;
 import com.stackwizards.custom.jsonqeue.ObjectHandler;
 import com.stackwizards.custom.jsonqeue.UrlRequest;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -43,23 +44,13 @@ public class MultpleChoiceQuestionFragment extends Fragment {
         @Override
         public <T> List<T> getObjectList(List<T> objs) {
             myTypes = (List<Question>) objs;
+            Collections.shuffle(myTypes);
             com.stackwizards.custom.mcq_module.MultpleChoiceQuestionFragment.handler.fhandle();
             return null;
         }
     }
 
 
-    private static <T> List<T> setView(List<T> objs) {
-        insertPoint = view.findViewById(R.id.insert_point);
-
-        List<Question> myTypes = (List<Question>) objs;
-        for (Question q : myTypes) {
-            View questionView = inflater2.inflate(R.layout.my_question, null);
-            insertPoint.addView(questionView);
-        }
-
-        return null;
-    }
 
     public void loadDataObjects() {
 
@@ -90,23 +81,42 @@ public class MultpleChoiceQuestionFragment extends Fragment {
             public void onClick(View v) {
                 LayoutInflater inflater2 = getActivity().getLayoutInflater();
                 insertPoint.removeAllViews();
-                Question question = myTypes.get(questionIndex);
+                final Question question = myTypes.get(questionIndex);
 
                 String txt = question.getQuestion_text();
                 txt = txt.substring(txt.indexOf(')') + 1);
 
                 ((TextView) view.findViewById(R.id.question_text)).setText(txt );
+
+
+                Collections.shuffle(question.getAnswer_options());
+
                 for(final String ans : question.getAnswer_options()){
                     View questionView2 = inflater2.inflate(R.layout.my_question, null);
-                    Button ansBtn = ((Button) questionView2.findViewById(R.id.textViewQuestion));
-                    ansBtn.setText(ans);
+                    final Button ansBtn = ((Button) questionView2.findViewById(R.id.textViewQuestion));
+
+                    String trimAnswer = question.getAnswer().replace("Ans:", "").trim();
+                    if (trimAnswer.length() == 1 && ans.substring(0, 3).contains(trimAnswer)) {
+                        question.setAnswer(ans);
+                    }
+
+
+                    ansBtn.setText(ans.substring(2));
                     insertPoint.addView(questionView2);
 
                     ansBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            next.setVisibility(View.VISIBLE);
-                            Log.i("QQ", ans);
+                            if(question.getAnswer().equals(ans)) {
+                                Log.i("QQ", "XXX " + ans);
+                                ansBtn.setBackgroundColor(0xFFA4C639);
+                                next.setVisibility(View.VISIBLE);
+                            } else {
+                                Log.i("QQ", "ZZZZ " + ans + " --- " + question.getAnswer());
+                                ansBtn.setOnClickListener(null);
+                                ansBtn.setBackgroundColor(0xF0FFE666);
+                            }
+
                         }
                     });
                 }
