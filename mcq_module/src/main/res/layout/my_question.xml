@@ -6,7 +6,7 @@
     android:padding="16dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <Button
-        android:id="@+id/textView"
+        android:id="@+id/textViewQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Answer Place Holder .."
