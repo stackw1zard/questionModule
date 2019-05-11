@@ -3,6 +3,8 @@ package com.stackwizards.custom.mcq_module;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,8 @@ import com.stackwizards.custom.jsonqeue.UrlRequest;
 import java.util.Collections;
 import java.util.List;
 
+import static android.content.Context.AUDIO_SERVICE;
+
 
 public class MultpleChoiceQuestionFragment extends Fragment {
     private static Ihandler handler;
@@ -30,6 +34,14 @@ public class MultpleChoiceQuestionFragment extends Fragment {
     static List<Question> myTypes;
     int questionIndex = 0;
     ImageView next;
+
+
+    private float volume = 0;
+    private SoundPool soundPool;
+    boolean loaded = false;
+
+    private int soundIdSuccess;
+    private int soundIdFailure;
 
     public static MultpleChoiceQuestionFragment newInstance(Context context, Ihandler ihandler) {
         MultpleChoiceQuestionFragment fragment = new MultpleChoiceQuestionFragment();
@@ -48,6 +60,34 @@ public class MultpleChoiceQuestionFragment extends Fragment {
             com.stackwizards.custom.mcq_module.MultpleChoiceQuestionFragment.handler.fhandle();
             return null;
         }
+    }
+
+
+
+    private void setAudioManager() {
+
+
+        AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+
+        float actualVolume = (float) audioManager
+                .getStreamVolume(AudioManager.STREAM_MUSIC);
+        float maxVolume = (float) audioManager
+                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume = actualVolume / maxVolume;
+
+//        // Set the hardware buttons to control the music
+        getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+// Load the sound
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                loaded = true;
+            }
+        });
+        soundIdSuccess = soundPool.load(context, R.raw.success, 1);
+        soundIdFailure = soundPool.load(context, R.raw.failure, 1);
     }
 
 
@@ -111,8 +151,12 @@ public class MultpleChoiceQuestionFragment extends Fragment {
                                 Log.i("QQ", "XXX " + ans);
                                 ansBtn.setBackgroundColor(0xFFA4C639);
                                 next.setVisibility(View.VISIBLE);
+                                soundPool.play(soundIdSuccess, volume * 2, volume * 2, 1, 0, 1f);
+
                             } else {
                                 Log.i("QQ", "ZZZZ " + ans + " --- " + question.getAnswer());
+                                soundPool.play(soundIdFailure, volume, volume, 1, 0, 1f);
+
                                 ansBtn.setOnClickListener(null);
                                 ansBtn.setBackgroundColor(0xF0FFE666);
                             }
@@ -132,6 +176,9 @@ public class MultpleChoiceQuestionFragment extends Fragment {
 //                }
             }
         });
+
+        setAudioManager();
+
         return view;
     }
 
