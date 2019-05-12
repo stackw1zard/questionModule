@@ -31,7 +31,7 @@ public class MultpleChoiceQuestionFragment extends Fragment {
     private static View view;
     static ViewGroup insertPoint;
     static Context context;
-    static List<Question> myTypes;
+    static public List<Question> myTypes;
     int questionIndex = 0;
     ImageView next;
 
