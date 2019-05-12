@@ -183,4 +183,7 @@ public class MultpleChoiceQuestionFragment extends Fragment {
     }
 
 
+    public static List<Question> getMyTypes() {
+        return myTypes;
+    }
 }
