@@ -6,13 +6,11 @@ import java.util.ArrayList;
     The numOfTimesAnsweredCorrectly will be used to sort, so as those answered correctly are less frequently asked
     As the question used, were collected using web scrapping, most of them do not have hints
  */
-public class Question {
-    private String index = null;
+public class Question extends QuestionStatistic {
+
     private String question_text;
     private String answer;
     private String hint;
-    private int numOfTimesAsked = 0;
-    private int numOfTimesAnsweredCorrectly = 0;
     private ArrayList<String> answer_options;
 
     public String getQuestion_text() {
@@ -37,30 +35,6 @@ public class Question {
 
     public void setHint(String hint) {
         this.hint = hint;
-    }
-
-    public int getNumOfTimesAsked() {
-        return numOfTimesAsked;
-    }
-
-    public void setNumOfTimesAsked(int numOfTimesAsked) {
-        this.numOfTimesAsked = numOfTimesAsked;
-    }
-
-    public int getNumOfTimesAnsweredCorrectly() {
-        return numOfTimesAnsweredCorrectly;
-    }
-
-    public String getIndex() {
-        return index;
-    }
-
-    public void setIndex(String index) {
-        this.index = index;
-    }
-
-    public void setNumOfTimesAnsweredCorrectly(int numOfTimesAnsweredCorrectly) {
-        this.numOfTimesAnsweredCorrectly = numOfTimesAnsweredCorrectly;
     }
 
     public ArrayList<String> getAnswer_options() {

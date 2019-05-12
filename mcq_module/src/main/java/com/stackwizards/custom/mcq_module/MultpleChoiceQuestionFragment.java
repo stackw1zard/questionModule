@@ -56,7 +56,11 @@ public class MultpleChoiceQuestionFragment extends Fragment {
         @Override
         public <T> List<T> getObjectList(List<T> objs) {
             myTypes = (List<Question>) objs;
+            Log.i("QUESTIONXXX", "q.getUuid()");
+
             Collections.shuffle(myTypes);
+            for(Question q:myTypes)
+                Log.i("QUESTIONXXX", q.getUuid());
             com.stackwizards.custom.mcq_module.MultpleChoiceQuestionFragment.handler.fhandle();
             return null;
         }
@@ -98,7 +102,6 @@ public class MultpleChoiceQuestionFragment extends Fragment {
 
         JsonObjectParser parser = new JsonObjectParser(Question.class, cm);
 
-//        request.jsonParseURL("http://www.stackwizards.org/json/test5.json", parser);
         request.jsonParseURL(url, parser);
     }
 
@@ -109,11 +112,7 @@ public class MultpleChoiceQuestionFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_multiple_choice, container, false);
 
         insertPoint = view.findViewById(R.id.insert_point);
-//        inflater2 = getActivity().getLayoutInflater();
-//        insertPoint.removeAllViews();
-//        LayoutInflater inflater2 = getActivity().getLayoutInflater();
-//        View questionView = inflater2.inflate(R.layout.my_question, null);
-//        insertPoint.addView(questionView);
+
 
         next =  view.findViewById(R.id.next_question);
 
@@ -174,11 +173,7 @@ public class MultpleChoiceQuestionFragment extends Fragment {
                 }
 
                 next.setVisibility(View.GONE);
-//                for (Question q : myTypes) {
-//                    View questionView2 = inflater2.inflate(R.layout.my_question, null);
-//                    ((TextView)questionView2.findViewById(R.id.textViewQuestion)).setText(q.getQuestion_text());
-//                    insertPoint.addView(questionView2);
-//                }
+
             }
         });
 

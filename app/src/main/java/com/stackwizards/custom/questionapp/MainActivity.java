@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements Ihandler {
             public void onClick(View v) {
 //                loadFragment(new MultpleChoiceQuestionFragment());
                 fragment = newInstance(MainActivity.this,MainActivity.this);
-                fragment.loadDataObjects();
+                fragment.loadDataObjects("http://www.stackwizards.org/json/mcq/qwert.json");
 //                fragment = new MultpleChoiceQuestionFragment();
                 ((ImageView) findViewById(R.id.imageView)).setVisibility(View.GONE);
             }
