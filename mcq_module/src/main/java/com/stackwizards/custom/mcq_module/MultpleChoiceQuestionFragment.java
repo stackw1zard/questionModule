@@ -92,13 +92,14 @@ public class MultpleChoiceQuestionFragment extends Fragment {
 
 
 
-    public void loadDataObjects() {
+    public void loadDataObjects(String url) {
 
         UrlRequest request = new UrlRequest(context);
 
         JsonObjectParser parser = new JsonObjectParser(Question.class, cm);
 
-        request.jsonParseURL("http://www.stackwizards.org/json/test5.json", parser);
+//        request.jsonParseURL("http://www.stackwizards.org/json/test5.json", parser);
+        request.jsonParseURL(url, parser);
     }
 
 
