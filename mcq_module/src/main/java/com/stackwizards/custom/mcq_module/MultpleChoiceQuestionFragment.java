@@ -166,8 +166,12 @@ public class MultpleChoiceQuestionFragment extends Fragment {
                     });
                 }
 
-                if(questionIndex < myTypes.size()-1)
-                     questionIndex++;
+                if(questionIndex < myTypes.size()-1) {
+                    questionIndex++;
+                }else {
+                    getFragmentManager().beginTransaction()
+                            .remove(MultpleChoiceQuestionFragment.this).commit();
+                }
 
                 next.setVisibility(View.GONE);
 //                for (Question q : myTypes) {
